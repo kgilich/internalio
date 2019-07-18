@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block middle %}
+
+    <!-- Middle Column -->
+    <div class="w3-col m7">
+    
+
+        <div class="w3-container w3-card w3-white w3-round w3-margin"><br>
+
+          <form class="w3-container"  action="/back/newquestion" method="POST">
+            <label>Zařazení do kategorie</label>
+            <select class="w3-select" name="kategorie">
+              <option value="" disabled selected>Vyber možnost...</option>
+              <option value="1 - OPS">Provoz/Bezpečnost</option>
+              <option value="2 - FIN">Ekonomické výsledky</option>
+              <option value="3 - HR">HR & finanční gramotnost</option>
+              <option value="4 - IT">IT a CubeInStore</option>
+              <option value="5 - OMNI">Omnichannel</option>
+              <option value="6 - OTHER">Ostatní / Diskuze / Návrhy</option>
+            </select>
+          </br>
+        </br>
+          <label>Text příspěvku/dotazu</label>
+        </br>
+          <textarea class="w3-input w3-border" name="dotaz" style="width:100%;"></textarea>
+      </br>
+          <input type="checkbox" name="anonymita" value="jsemsrab"> Chci tento příspěvek publikovat anonymně<br>
+
+       <button class="w3-button w3-white w3-border"><input type="submit"></button>
+
+
+
+            
+            </form>
+            <div class="w3-panel w3-pale-blue w3-leftbar w3-rightbar w3-border-blue">
+              <p>Stejně jako ve sportu i zde existují určitá pravidla. Pokuď se chceš vyhnout "diskvalifikaci ze hry", nastuduj si je <a href="https://docs.google.com/document/d/18xeupX9-uqJgYYrkd97PktYYwvqgRZPkvrlei-pUyfk/edit?usp=sharing">zde.</a></a></p>
+              <p>S pravidly souhlasíš automaticky - odesláním dotazu</p>
+            </div>
+
+        </div> 
+        
+      <!-- End Middle Column -->
+      </div>
+
+
+{% endblock %}
+{% block usr %} {{ usr }} {% endblock %}

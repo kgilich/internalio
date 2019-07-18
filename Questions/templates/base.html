@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<title>Decathlon | Teplice</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-blue-grey.css">
+<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
+</style>
+<body class="w3-theme-l5">
+<!-- Navbar -->
+{% if session.get('logged in') %}
+<div class="w3-top">
+ <div class="w3-bar w3-blue w3-left-align w3-large">
+  <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-blue" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
+  <a href="/" class="w3-bar-item w3-button w3-padding-large w3-light-blue"><i class="fa fa-home w3-margin-right"></i><img src="https://vignette.wikia.nocookie.net/logopedia/images/6/6b/DECATHLON.png/revision/latest?cb=20190609201318" class="w3-image" style="height: 0.7cm;"> | Teplice</a>
+  <div class="w3-dropdown-hover w3-hide-small">
+    <button class="w3-button w3-padding-large">Příspěvky</button>
+    <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+      <a href="/newquestion" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="News"><i class="fa fa-edit"></i>  Nový příspěvek</a>
+      <a href="/prehled" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Account Settings"><i class="fa fa-list"></i>  Přehled příspěvků</a>
+    </div>
+  </div>
+  <div class="w3-dropdown-hover w3-hide-small">
+    <button class="w3-button w3-padding-large">Události (beta)</button>
+    <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+      <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="News"><i class="fa fa-edit"></i>  Zapsat událost</a>
+      <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Account Settings"><i class="fa fa-list"></i>  Přehled událostí</a>
+    </div>
+  </div>
+  <a href="/back/logout" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="News"><i class="fa fa-shutdown"></i>  Odhlásit se</a>
+  <div class="w3-dropdown-hover w3-hide-small">
+    <button class="w3-button w3-padding-large" title="Notifications"><i class="fa fa-bell"></i><span class="w3-badge w3-right w3-small w3-green">0</span></button>     
+    <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px">
+      <a href="#" class="w3-bar-item w3-button">Zde budou již brzy upozornění :)</a>
+      <a href="#" class="w3-bar-item w3-button"></a>
+      <a href="#" class="w3-bar-item w3-button"></a>
+    </div>
+  </div>
+ </div>
+</div>
+
+<!-- Navbar on small screens -->
+<div id="navDemo" class="w3-bar-block w3-blue w3-hide w3-hide-large w3-hide-medium w3-large">
+<br/>
+<br/>
+  <div class="w3-dropdown-hover">
+    <button class="w3-button w3-padding-large">Příspěvky</button>
+    <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+      <a href="/newquestion" class="w3-bar-item w3-button w3-padding-large" title="News"><i class="fa fa-edit"></i>  Nový příspěvek</a>
+      <a href="/prehled" class="w3-bar-item w3-button w3-padding-large" title="Account Settings"><i class="fa fa-check-square-o"></i>  Přehled příspěvků</a>
+    </div>
+  </div>
+  <div class="w3-dropdown-hover">
+    <button class="w3-button w3-padding-large">Události (beta)</button>
+    <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+      <a href="#" class="w3-bar-item w3-button w3-padding-large" title="News"><i class="fa fa-edit"></i>  Zapsat událost</a>
+      <a href="#" class="w3-bar-item w3-button w3-padding-large" title="Account Settings"><i class="fa fa-check-square-o"></i>  Přehled událostí</a>
+    </div>
+  </div>
+  <a href="/back/logout" class="w3-bar-item w3-button w3-padding-large">Odhlásit se</a>
+</div>
+{% endif %}
+<!-- Page Container -->
+<div class="w3-container w3-content" style="max-width:1400px;margin-top:80px">   
+  {% if session.get('logged in') %} 
+  <!-- The Grid -->
+  <div class="w3-row">
+    <!-- Left Column -->
+    <div class="w3-col m3">
+      <!-- Profile -->
+      <div class="w3-card w3-round w3-white">
+        <div class="w3-container">
+         <h4 class="w3-center">Tvůj profil</h4>
+         <p class="w3-center"><img src="https://www.telekom.sk/magenta1-skupina/img/user-icon.png" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
+         <hr>
+         <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i>{% block usr %} {% endblock %}</p>
+         <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i> Teplice - 2099</p>
+        </div>
+      </div>
+      <br>
+      
+      <!-- Interests
+      <div class="w3-card w3-round w3-white w3-hide-small">
+        <div class="w3-container">
+          <p>Interests</p>
+          <p>
+            <span class="w3-tag w3-small w3-theme-d5">News</span>
+            <span class="w3-tag w3-small w3-theme-d4">W3Schools</span>
+            <span class="w3-tag w3-small w3-theme-d3">Labels</span>
+            <span class="w3-tag w3-small w3-theme-d2">Games</span>
+            <span class="w3-tag w3-small w3-theme-d1">Friends</span>
+            <span class="w3-tag w3-small w3-theme">Games</span>
+            <span class="w3-tag w3-small w3-theme-l1">Friends</span>
+            <span class="w3-tag w3-small w3-theme-l2">Food</span>
+            <span class="w3-tag w3-small w3-theme-l3">Design</span>
+            <span class="w3-tag w3-small w3-theme-l4">Art</span>
+            <span class="w3-tag w3-small w3-theme-l5">Photos</span>
+          </p>
+        </div>
+      </div>
+      <br>
+        -->
+      <!-- Alert Box -->
+      <div class="w3-container w3-display-container w3-round w3-theme-l4 w3-border w3-theme-border w3-margin-bottom w3-hide-small">
+        <span onclick="this.parentElement.style.display='none'" class="w3-button w3-theme-l3 w3-display-topright">
+          <i class="fa fa-remove"></i>
+        </span>
+        <p><strong>Hej ty!</strong></p>
+        <p>Nezapomeň se vždy usmívat. S dobrou náladou jde hned všechno lépe ;)</p>
+      </div>
+    
+    <!-- End Left Column -->
+    </div>
+    {% endif %}
+    <!-- Middle Column -->
+    {% if not session.get('logged in') %}
+    <div class="w3-container w3-half w3-margin-top">
+    
+        <form class="w3-container w3-card-4" action="/back/auth" method="POST">
+      
+        <input type="username" class="w3-input" name="jmeno" placeholder="Jméno:" required autofocus>
+      
+        <input type="password" class="w3-input" name="heslo" placeholder="Heslo:" required autofocus>
+      
+        <button class="w3-button w3-section w3-teal w3-ripple" type="submit"> Přihlásit se</button>
+        
+        </form>
+        
+        </div>
+    {% endif %}  
+    {% if session.get('logged in') %}
+    {% block middle %}
+    {% endblock %}
+    {% endif %}
+    <!-- End Middle Column -->
+    <!-- Right Column -->
+
+    <div class="w3-col m2">
+      <div class="w3-card w3-round w3-white w3-center">
+        <div class="w3-container">
+          <p>Nejbližší událost</p>
+          <img src="https://img.grouponcdn.com/deal/tsVVG4dhhFnCuyYQXpY1/kQ-2048x1229/v1/c700x420.jpg" alt="Forest" style="width:100%;">
+          <p><strong>Vyjížďka na paddleboardech</strong></p>
+          <p>Pátek od 15:00</p>
+          <p><button class="w3-button w3-block w3-theme-l4">Více informací</button></p>
+        </div>
+      </div>
+      <br>
+      
+      <br>
+      
+      <div class="w3-card w3-round w3-white w3-padding-16 w3-center">
+        <p>Co je nového v této aplikaci?</p>
+        <p>Nyní aplikace umožňuje zobrazení i na mobilních zařízeních.</p>
+      </div>
+      <br>
+      
+      <div class="w3-card w3-round w3-white w3-padding-32 w3-center">
+        <p><i class="fa fa-bug w3-xxlarge"></i></p>
+        <p>Našel jsi tu "brouky"? Dej mi prosím vědět.</p>
+        <p><a href="mailto:krystof.gilich@decathlon.com">Nahlásit chybu</a></p>
+      </div>
+      
+    <!-- End Right Column -->
+    </div>
+    
+  <!-- End Grid -->
+  </div>
+  
+<!-- End Page Container -->
+</div>
+<br>
+
+<!-- Footer -->
+<footer class="w3-container w3-theme-d3 w3-padding-16">
+  <h5>Dělej co tě baví! 😊</h5>
+</footer>
+
+<footer class="w3-container w3-theme-d5">
+  <p></p>
+</footer>
+ 
+<script>
+// Accordion
+function myFunction(id) {
+  var x = document.getElementById(id);
+  if (x.className.indexOf("w3-show") == -1) {
+    x.className += " w3-show";
+    x.previousElementSibling.className += " w3-theme-d1";
+  } else { 
+    x.className = x.className.replace("w3-show", "");
+    x.previousElementSibling.className = 
+    x.previousElementSibling.className.replace(" w3-theme-d1", "");
+  }
+}
+
+// Used to toggle the menu on smaller screens when clicking on the menu button
+function openNav() {
+  var x = document.getElementById("navDemo");
+  if (x.className.indexOf("w3-show") == -1) {
+    x.className += " w3-show";
+  } else { 
+    x.className = x.className.replace(" w3-show", "");
+  }
+}
+</script>
+
+<script>
+  function myFunction() {
+    var x = document.getElementById("Demo");
+    if (x.className.indexOf("w3-show") == -1) {  
+      x.className += " w3-show";
+    } else { 
+      x.className = x.className.replace(" w3-show", "");
+    }
+  }
+  </script>
+  
+  
+
+</body>
+</html> 
+

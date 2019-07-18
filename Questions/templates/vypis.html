@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block middle %}
+
+    <!-- Middle Column -->
+    <div class="w3-col m7">
+        <button class="w3-button w3-grey" onclick="document.getElementById('id01').style.display='block'">Třídit podle kategorie </button> 
+
+        <div id="id01" class="w3-panel w3-white w3-display-container" style="display:none">
+          <span onclick="this.parentElement.style.display='none'"
+          class="w3-button w3-red w3-display-topright">x</span>
+          <div class="w3-card w3-round w3-white">
+              <div class="w3-container">
+                <p>Výběr dle kategorie</p>
+                <p>
+                  <span class="w3-tag w3-small w3-theme"><a href="/prehled">Vše</a></span>
+                  <span class="w3-tag w3-small w3-theme"><a href="/prehled:1 - OPS">Provoz/Bezpečnost</a></span>
+                  <span class="w3-tag w3-small w3-theme"><a href="/prehled:2 - FIN">Ekonomické výsledky</a></span>
+                  <span class="w3-tag w3-small w3-theme"><a href="/prehled:3 - HR">HR & finanční gramotnost</a></span>
+                  <span class="w3-tag w3-small w3-theme"><a href="/prehled:4 - IT">IT & CubeInStore</a></span>
+                  <span class="w3-tag w3-small w3-theme"><a href="/prehled:5 - OMNI">Omnichannel</a></span>
+                  <span class="w3-tag w3-small w3-theme"><a href="/prehled:6 - OTHER">Ostatní / Diskuze / Návrhy</a></span>
+                </p>
+              </div>
+            </div>
+        </div>
+        {% for row in rows %}
+        <div class="w3-container w3-card w3-white w3-round w3-margin"><br>
+          <img src="https://www.telekom.sk/magenta1-skupina/img/user-icon.png" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
+          <span class="w3-right w3-opacity">zveřejněno {{ row['vlozeno'] }} v <span class="w3-tag w3-small w3-theme">{{ row['kategorie'] }}</span></span>
+          <h4>{{ row['jmeno'] }} {{ row['prijmeni'] }}</h4><br>
+          <hr class="w3-clear">
+          <p>{{ row['dotaz'] }}</p>
+          <button type="button" class="w3-button w3-theme-d2 w3-margin-bottom"><i class="fa fa-comment"></i> <a href="/komentare:{{ row['ROWID'] }}">Komentáře</a></button> 
+        </div>
+        {% endfor %}
+        
+      <!-- End Middle Column -->
+      </div>
+
+
+{% endblock %}
+{% block usr %} {{ usr }} {% endblock %}
