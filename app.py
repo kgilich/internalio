@@ -144,7 +144,7 @@ def poslikometar(postid):
     cur = con.cursor()
     cur.execute('SELECT email, jmeno, prijmeni FROM uzivatele WHERE uzivatel = ?', [name])
     rows = cur.fetchall()
-    for row in rows:
+    for row in rows:  
         mail = row['email']
         jmeno = row['jmeno']
         prijmeni = row['prijmeni']
