@@ -120,6 +120,10 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
     {% if not session.get('logged in') %}
     <div class="w3-container w3-half w3-margin-top">
     
+      <div class="w3-panel w3-blue-grey">
+        <h3>Pozor!</h3>
+        <p>Všechny účty registrované před 19.7.2019 jsou pozastaveny. Je nutné provést novou registraci!</p>
+      </div> 
         <form class="w3-container w3-card-4" action="/back/auth" method="POST">
       
         <input type="username" class="w3-input" name="jmeno" placeholder="Jméno:" required autofocus>

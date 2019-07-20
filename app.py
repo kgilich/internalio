@@ -67,7 +67,34 @@ def prehledby(kategorie):
     rows = cur.fetchall()
     return render_template('vypis.html', rows=rows, usr=GlobalUsername)
 
+@app.route('/back/newevent', methods=['POST'])
+def saveevent():
+        name = session['username']
+        con = sql.connect(os.path.join(aktualni_adresar, 'main.db'))
+        con.row_factory = sql.Row
+        cur = con.cursor()
+        cur.execute('SELECT email, jmeno, prijmeni FROM uzivatele WHERE uzivatel = ?', [name])
+        rows = cur.fetchall()
+        con.commit()
+        con.close()
+        for row in rows:
+            mail = row['email']
+            jmeno = row['jmeno']
+            prijmeni = row['prijmeni']
+        email = mail
+        j = jmeno
+        p = prijmeni
+        dotaz = request.form['dotaz']
+        kategorie = request.form['kategorie']
+        anonym = request.form['anonymita']
 
+        con = sql.connect(os.path.join(aktualni_adresar, 'main.db'))
+        con.row_factory = sql.Row
+        cur = con.cursor()
+        cur.execute('INSERT INTO dotazy (email, kategorie, dotaz, jmeno, prijmeni)  VALUES (?, ?, ?, ?, ?);', [email, kategorie, dotaz, jj, pp])
+        con.commit()
+        con.close()
+        return redirect('/')
 
 @app.route('/back/newquestion', methods=['POST'])
 def savequestion():
