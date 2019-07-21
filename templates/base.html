@@ -8,7 +8,7 @@
 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
-html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
+html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}, .mySlides {display:none;}
 </style>
 <body class="w3-theme-l5">
 <!-- Navbar -->
@@ -20,18 +20,26 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
   <div class="w3-dropdown-hover w3-hide-small">
     <button class="w3-button w3-padding-large">Příspěvky</button>
     <div class="w3-dropdown-content w3-card-4 w3-bar-block">
-      <a href="/newquestion" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="News"><i class="fa fa-edit"></i>  Nový příspěvek</a>
-      <a href="/prehled" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Account Settings"><i class="fa fa-list"></i>  Přehled příspěvků</a>
+      <a href="/newquestion" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Nový příspěvek"><i class="fa fa-edit"></i>  Nový příspěvek</a>
+      <a href="/prehled" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Přehled příspěvků"><i class="fa fa-list"></i>  Přehled příspěvků</a>
     </div>
   </div>
   <div class="w3-dropdown-hover w3-hide-small">
-    <button class="w3-button w3-padding-large">Události (beta)</button>
+    <button class="w3-button w3-padding-large">Události (nepřístupné)</button>
     <div class="w3-dropdown-content w3-card-4 w3-bar-block">
-      <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="News"><i class="fa fa-edit"></i>  Zapsat událost</a>
-      <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Account Settings"><i class="fa fa-list"></i>  Přehled událostí</a>
+      <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Nová událost"><i class="fa fa-edit"></i>  Zapsat událost</a>
+      <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Události"><i class="fa fa-list"></i>  Přehled událostí</a>
     </div>
   </div>
-  <a href="/back/logout" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="News"><i class="fa fa-shutdown"></i>  Odhlásit se</a>
+  <div class="w3-dropdown-hover w3-hide-small">
+      <button class="w3-button w3-padding-large">Nástroje (nepřístupné)</button>
+      <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+        <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Testovačky"><i class="fa fa-bicycle"></i>  - Zaměstnanecké testovačky</a>
+        <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Evidence mobilů"><i class="fa fa-mobile"></i>  - Evidence služebních telefonů</a>
+        <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Nástroj reklamace"><i class="fa fa-recycle"></i>  - Reklamace</a>
+      </div>
+    </div>
+  <a href="/back/logout" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Odhlásit se"><i class="fa fa-sign-out"></i>  Odhlásit se</a>
   <div class="w3-dropdown-hover w3-hide-small">
     <button class="w3-button w3-padding-large" title="Notifications"><i class="fa fa-bell"></i><span class="w3-badge w3-right w3-small w3-green">0</span></button>     
     <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px">
@@ -50,17 +58,25 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
   <div class="w3-dropdown-hover">
     <button class="w3-button w3-padding-large">Příspěvky</button>
     <div class="w3-dropdown-content w3-card-4 w3-bar-block">
-      <a href="/newquestion" class="w3-bar-item w3-button w3-padding-large" title="News"><i class="fa fa-edit"></i>  Nový příspěvek</a>
-      <a href="/prehled" class="w3-bar-item w3-button w3-padding-large" title="Account Settings"><i class="fa fa-check-square-o"></i>  Přehled příspěvků</a>
+      <a href="/newquestion" class="w3-bar-item w3-button w3-padding-large" title="Nový příspěvek"><i class="fa fa-edit"></i>  Nový příspěvek</a>
+      <a href="/prehled" class="w3-bar-item w3-button w3-padding-large" title="Příspěvky"><i class="fa fa-check-square-o"></i>  Přehled příspěvků</a>
     </div>
   </div>
   <div class="w3-dropdown-hover">
-    <button class="w3-button w3-padding-large">Události (beta)</button>
+    <button class="w3-button w3-padding-large">Události (nepřístupné)</button>
     <div class="w3-dropdown-content w3-card-4 w3-bar-block">
-      <a href="#" class="w3-bar-item w3-button w3-padding-large" title="News"><i class="fa fa-edit"></i>  Zapsat událost</a>
-      <a href="#" class="w3-bar-item w3-button w3-padding-large" title="Account Settings"><i class="fa fa-check-square-o"></i>  Přehled událostí</a>
+      <a href="#" class="w3-bar-item w3-button w3-padding-large" title="Nová událost"><i class="fa fa-edit"></i>  Zapsat událost</a>
+      <a href="#" class="w3-bar-item w3-button w3-padding-large" title="Události"><i class="fa fa-check-square-o"></i>  Přehled událostí</a>
     </div>
   </div>
+  <div class="w3-dropdown-hover">
+      <button class="w3-button w3-padding-large">Nástroje (nepřístupné)</button>
+      <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+        <a href="#" class="w3-bar-item w3-button w3-padding-large" title="Testovačky"><i class="fa fa-bicycle"></i>  Zaměstnanecké testovačky</a>
+        <a href="#" class="w3-bar-item w3-button w3-padding-large" title="Evidence mobilů"><i class="fa fa-mobile"></i>  Evidence služebních telefonů</a>
+        <a href="#" class="w3-bar-item w3-button w3-padding-large" title="Nástroj reklamace"><i class="fa fa-recycle"></i>  Reklamace</a>
+      </div>
+    </div>
   <a href="/back/logout" class="w3-bar-item w3-button w3-padding-large">Odhlásit se</a>
 </div>
 {% endif %}
@@ -81,7 +97,11 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
          <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i> Teplice - 2099</p>
         </div>
       </div>
-      <br>
+    </br>
+
+    {% block leftcolumn %}
+    {% endblock %}
+
       
       <!-- Interests
       <div class="w3-card w3-round w3-white w3-hide-small">
@@ -105,13 +125,13 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
       <br>
         -->
       <!-- Alert Box -->
-      <div class="w3-container w3-display-container w3-round w3-theme-l4 w3-border w3-theme-border w3-margin-bottom w3-hide-small">
+      <!---<div class="w3-container w3-display-container w3-round w3-theme-l4 w3-border w3-theme-border w3-margin-bottom w3-hide-small">
         <span onclick="this.parentElement.style.display='none'" class="w3-button w3-theme-l3 w3-display-topright">
           <i class="fa fa-remove"></i>
         </span>
         <p><strong>Hej ty!</strong></p>
         <p>Nezapomeň se vždy usmívat. S dobrou náladou jde hned všechno lépe ;)</p>
-      </div>
+      </div>-->
     
     <!-- End Left Column -->
     </div>
@@ -224,6 +244,8 @@ function openNav() {
   }
   </script>
   
+  {% block scripts %}
+  {% endblock %}
   
 
 </body>

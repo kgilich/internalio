@@ -19,9 +19,46 @@
 </br>
     <p> Všechny tyto odkazy jsou přístupné i z domova! :)</p>
       <!-- End Middle Column -->
-      </div>
-      </div>
+    </div>      
+    </div>
 
 
 {% endblock %}
+{% block leftcolumn %}
+<h2 class="w3-center"> </h2>
+            
+<div class="w3-content" style="max-width:400px">
+ <div class="mySlides w3-container w3-large w3-blue w3-card-4">
+        <h2>Efektivnější komunikace napříč prodejnou</h2>
+        <p>Kokunikační nástroj zcela v režii týmu - přizpůsobitelný a flexibilní.</p>
+ </div>
+
+  <img class="mySlides" src="https://s3.eu-central-1.amazonaws.com/cocuma-prod/companies/6-decathlon/images/thumbnails/18216_QO0596p.jpg" style="width:100%">
+
+  <div class="mySlides w3-container w3-large w3-blue w3-card-4">
+    <h2>Účinné nástroje</h2>
+    <p>Takové, jaké si budeš přát. Na míru tvým potřebám.</p>
+  </div>
+
+  <img class="mySlides" src="https://s3.eu-central-1.amazonaws.com/cocuma-prod/companies/6-decathlon/images/thumbnails/18337_N8litSU.jpg" style="width:100%">
+</div>
+{% endblock %}
 {% block usr %} {{ usr }} {% endblock %}
+{% block scripts %}
+<script>
+        var slideIndex = 0;
+        carousel();
+        
+        function carousel() {
+          var i;
+          var x = document.getElementsByClassName("mySlides");
+          for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none"; 
+          }
+          slideIndex++;
+          if (slideIndex > x.length) {slideIndex = 1} 
+          x[slideIndex-1].style.display = "block"; 
+          setTimeout(carousel, 2000); 
+        }
+        </script>
+{% endblock %}
