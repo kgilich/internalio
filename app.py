@@ -42,7 +42,7 @@ def newuser():
         else:
             return("Zadaný email nepochází z domény @decathlon.com")
 
-@app.route('/newquestion')
+@app.route('/novyp')
 def newquestion():
     GlobalUsername = session['username']
     return render_template('dotaz.html', usr=GlobalUsername)
