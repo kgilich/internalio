@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block middle %}
+
+    <!-- Middle Column -->
+    <div class="w3-col m7">
+    
+
+       {% for row in rows %}
+       <div class="w3-container w3-card w3-white w3-round w3-margin"><br>
+        <h1>{{ row['nazev'] }}</h1>
+       </br>
+        <p>{{ row['popis'] }}</p>
+       </br>
+        <p>dne: {{ row['datum'] }}</p>
+       </br>
+        <p>od: {{ row['cas'] }}</p>
+       </br>
+        <p>pořádá: {{ row['email'] }}</p>
+       </div>
+       {% endfor %}
+
+            
+        
+      <!-- End Middle Column -->
+      </div>
+
+
+{% endblock %}
+{% block usr %} {{ usr }} {% endblock %}

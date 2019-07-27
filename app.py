@@ -16,8 +16,9 @@ def index():
     if not session.get('username'):
         return render_template('index.html', usr="nic")
     else:
+        LastEvent = NejblizsiUdalost()
         GlobalUsername = session['username']
-        return render_template('index.html', usr=GlobalUsername)
+        return render_template('index.html', usr=GlobalUsername, event=LastEvent)
 
 @app.route('/action/newuser')
 def registrace():
@@ -46,6 +47,11 @@ def newuser():
 def newquestion():
     GlobalUsername = session['username']
     return render_template('dotaz.html', usr=GlobalUsername)
+
+@app.route('/novau')
+def newevent():
+    GlobalUsername = session['username']
+    return render_template('novaudalost.html', usr=GlobalUsername)
 
 @app.route('/prehled')
 def prehled():
@@ -84,14 +90,14 @@ def saveevent():
         email = mail
         j = jmeno
         p = prijmeni
-        dotaz = request.form['dotaz']
-        kategorie = request.form['kategorie']
-        anonym = request.form['anonymita']
-
+        nazev = request.form['nazev_udalosti']
+        popis = request.form['popis_udalosti']
+        datum = request.form['datum_udalosti']
+        cas = request.form['cas_udalosti']
         con = sql.connect(os.path.join(aktualni_adresar, 'main.db'))
         con.row_factory = sql.Row
         cur = con.cursor()
-        cur.execute('INSERT INTO dotazy (email, kategorie, dotaz, jmeno, prijmeni)  VALUES (?, ?, ?, ?, ?);', [email, kategorie, dotaz, jj, pp])
+        cur.execute('INSERT INTO udalosti (email, jmeno, prijmeni, nazev, popis, datum, cas)  VALUES (?, ?, ?, ?, ?, ?, ?);', [email, j, p, nazev, popis, datum, cas])
         con.commit()
         con.close()
         return redirect('/')
@@ -160,6 +166,28 @@ def vypiskomentaru(postid):
 
     return render_template('komentare.html', rows=rows, row=postid, usr=GlobalUsername)
 
+@app.route('/udalost:<eventid>', methods=['GET'])
+def vypisjedneudalosti(eventid):
+    GlobalUsername = session['username']
+    con = sql.connect(os.path.join(aktualni_adresar, 'main.db'))
+    con.row_factory = sql.Row
+    cur = con.cursor()
+    cur.execute('SELECT * FROM udalosti WHERE ROWID = ?;', [eventid])
+    rows = cur.fetchall()
+
+    return render_template('udalost.html', rows=rows, usr=GlobalUsername)
+
+@app.route('/udalosti')
+def vypisudalosti():
+    GlobalUsername = session['username']
+    con = sql.connect(os.path.join(aktualni_adresar, 'main.db'))
+    con.row_factory = sql.Row
+    cur = con.cursor()
+    cur.execute('SELECT *, ROWID FROM udalosti ORDER BY datum ASC;')
+    rows = cur.fetchall()
+
+    return render_template('udalosti.html', rows=rows, usr=GlobalUsername)
+
 @app.route('/back/comment:<postid>', methods=['POST'])
 def poslikometar(postid):
     GlobalUsername = session['username']
@@ -200,6 +228,14 @@ def overeni(name, heslo):
     else:
         return("neni")
 # konec overovani
+
+def NejblizsiUdalost():
+    con = sql.connect(os.path.join(aktualni_adresar, 'main.db'))
+    con.row_factory = sql.Row
+    cur = con.cursor()
+    cur.execute('SELECT *, ROWID FROM udalosti ORDER BY datum ASC LIMIT 1;')
+    rows = cur.fetchall()
+    return(rows)
 
 def NajdiJmeno(email):
     con = sql.connect(os.path.join(aktualni_adresar, 'main.db'))

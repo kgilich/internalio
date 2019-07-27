@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block middle %}
+
+    <!-- Middle Column -->
+    <div class="w3-col m7">
+    
+        <div class="w3-container">
+            <h2>Přehled všech událostí v systému</h2>
+            <table class="w3-table-all">
+              <thead>
+                <tr class="w3-yellow">
+                  <th>Název</th>
+                  <th>Dne</th>
+                  <th>Od (hodin)</th>
+                  <th> </th>
+                </tr>
+              </thead>
+            {% for row in rows %}
+              <tr>
+                <td>{{ row['nazev'] }}</td>
+                <td>{{ row['datum'] }}</td>
+                <td>{{ row['cas'] }}</td>
+                <td><a href="/udalost:{{ row['ROWID'] }}">Více info</a></td>
+              </tr>
+            {% endfor %}
+              
+            </table>
+          </div>
+
+
+        
+      <!-- End Middle Column -->
+      </div>
+
+
+{% endblock %}
+{% block usr %} {{ usr }} {% endblock %}
