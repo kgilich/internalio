@@ -15,7 +15,7 @@ aktualni_adresar = os.path.abspath(os.path.dirname(__file__))
 def index():
     if not session.get('username'):
         return render_template('index.html', usr="nic")
-    else:
+    else:   
         LastEvent = NejblizsiUdalost()
         GlobalUsername = session['username']
         return render_template('index.html', usr=GlobalUsername, event=LastEvent)
@@ -23,6 +23,30 @@ def index():
 @app.route('/action/newuser')
 def registrace():
     return render_template('registrace.html')
+
+@app.route('/back/deletep:<rowid>', methods=["GET"])
+def deletepost(rowid):
+        name = session['username']
+        con = sql.connect(os.path.join(aktualni_adresar, 'main.db'))
+        con.row_factory = sql.Row
+        cur = con.cursor()
+        cur.execute('SELECT * FROM uzivatele WHERE uzivatel = ?;', [name])
+        rows = cur.fetchall()
+        con.commit()
+        con.close()
+        for row in rows:
+            role = row['role']
+        if role == "SUPERUSER":
+            con = sql.connect(os.path.join(aktualni_adresar, 'main.db'))
+            con.row_factory = sql.Row
+            cur = con.cursor()
+            idecko = rowid
+            cur.execute('DELETE FROM dotazy WHERE ROWID = ?;', [idecko])
+            con.commit()
+            con.close()
+            return redirect('/')
+
+
 
 @app.route('/back/newuser', methods=["POST"])
 def newuser():
