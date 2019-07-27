@@ -45,6 +45,8 @@ def deletepost(rowid):
             con.commit()
             con.close()
             return redirect('/')
+        else:
+            return("Přístup odepřen, běž si hrát na hřiště :)")
 
 
 
