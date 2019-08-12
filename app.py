@@ -2,6 +2,7 @@
 from flask import Flask, render_template, redirect, request, url_for, session, escape
 import sqlite3 as sql
 import verify
+from datetime import date
 import os
 
 
@@ -259,7 +260,8 @@ def NejblizsiUdalost():
     con = sql.connect(os.path.join(aktualni_adresar, 'main.db'))
     con.row_factory = sql.Row
     cur = con.cursor()
-    cur.execute('SELECT *, ROWID FROM udalosti ORDER BY datum ASC LIMIT 1;')
+    today = date.today()
+    cur.execute('SELECT *, ROWID FROM udalosti WHERE datum < ? ORDER BY datum DESC LIMIT 1;',[today])
     rows = cur.fetchall()
     return(rows)
 
