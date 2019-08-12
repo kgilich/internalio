@@ -2,7 +2,7 @@
 from flask import Flask, render_template, redirect, request, url_for, session, escape
 import sqlite3 as sql
 import verify
-from datetime import date
+import datetime
 import os
 
 
@@ -11,7 +11,7 @@ app.secret_key = "2bcjhcebcjec35hjhh605"
 app.debug = True
 
 aktualni_adresar = os.path.abspath(os.path.dirname(__file__))
-
+now = datetime.datetime.now()
 @app.route('/')
 def index():
     if not session.get('username'):
@@ -260,15 +260,10 @@ def NejblizsiUdalost():
     con = sql.connect(os.path.join(aktualni_adresar, 'main.db'))
     con.row_factory = sql.Row
     cur = con.cursor()
-    today = date.today()
-    cur.execute('SELECT *, ROWID FROM udalosti WHERE datum < ? ORDER BY datum DESC LIMIT 1;',[today])
+    dnes = now.strftime("%Y-%m-%d")
+    cur.execute('SELECT *, ROWID FROM udalosti WHERE datum < ? ORDER BY datum DESC LIMIT 1;', [dnes])
     rows = cur.fetchall()
     return(rows)
-
-@app.route('/checkdate')
-def checkdate():
-    today = date.today()
-    return(today)
 
 def NajdiJmeno(email):
     con = sql.connect(os.path.join(aktualni_adresar, 'main.db'))
