@@ -265,6 +265,11 @@ def NejblizsiUdalost():
     rows = cur.fetchall()
     return(rows)
 
+@app.route('/checkdate')
+def checkdate():
+    today = date.today()
+    return(today)
+
 def NajdiJmeno(email):
     con = sql.connect(os.path.join(aktualni_adresar, 'main.db'))
     con.row_factory = sql.Row
