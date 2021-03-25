@@ -4,6 +4,7 @@ import sqlite3 as sql
 import verify
 import datetime
 import os
+import posts
 
 
 app = Flask(__name__)
@@ -129,45 +130,11 @@ def saveevent():
         con.close()
         return redirect('/')
 
-@app.route('/back/newquestion', methods=['POST'])
-def savequestion():
+@app.route('/back/newpost', methods=['POST'])
+def Do_savepost():
         name = session['username']
-        con = sql.connect(os.path.join(aktualni_adresar, 'main.db'))
-        con.row_factory = sql.Row
-        cur = con.cursor()
-        cur.execute('SELECT email, jmeno, prijmeni FROM uzivatele WHERE uzivatel = ?', [name])
-        rows = cur.fetchall()
-        con.commit()
-        con.close()
-        for row in rows:
-            mail = row['email']
-            jmeno = row['jmeno']
-            prijmeni = row['prijmeni']
-        email = mail
-        j = jmeno
-        p = prijmeni
-        dotaz = request.form['dotaz']
-        kategorie = request.form['kategorie']
-        anonym = request.form['anonymita']
-
-        if anonym == "ano":
-            jj = "Anonymní"
-            pp = "příspěvek"
-            con = sql.connect(os.path.join(aktualni_adresar, 'main.db'))
-            con.row_factory = sql.Row
-            cur = con.cursor()
-            cur.execute('INSERT INTO dotazy (email, kategorie, dotaz, jmeno, prijmeni)  VALUES (?, ?, ?, ?, ?);', [email, kategorie, dotaz, jj, pp])
-            con.commit()
-            con.close()
-            return redirect('/')
-        else:
-            con = sql.connect(os.path.join(aktualni_adresar, 'main.db'))
-            con.row_factory = sql.Row
-            cur = con.cursor()
-            cur.execute('INSERT INTO dotazy (email, kategorie, dotaz, jmeno, prijmeni)  VALUES (?, ?, ?, ?, ?);', [email, kategorie, dotaz, j, p])
-            con.commit()
-            con.close()
-            return redirect('/')
+        if posts.savepost(name,request,aktualni_adresar) == "1":
+            return redirect("/prehled")
 
 # overovani uzivatele
 @app.route('/back/auth', methods=['POST'])
@@ -175,13 +142,14 @@ def auth():
     name = request.form['jmeno']
     heslo = request.form['heslo']
     vysledek = overeni(name, heslo)
-    if vysledek is not "neni":
+    if vysledek != "neni":
         session['username'] = request.form['jmeno']
         session['logged in'] = True
         return redirect("/")
     else:
         return("Špatné heslo/jméno")
 
+# vypise komentare dle id příspěvku
 @app.route('/komentare:<postid>', methods=['GET'])
 def vypiskomentaru(postid):
     GlobalUsername = session['username']
@@ -193,6 +161,7 @@ def vypiskomentaru(postid):
 
     return render_template('komentare.html', rows=rows, row=postid, usr=GlobalUsername)
 
+# vypise detail udalosti dle jejiho id
 @app.route('/udalost:<eventid>', methods=['GET'])
 def vypisjedneudalosti(eventid):
     GlobalUsername = session['username']
@@ -204,6 +173,7 @@ def vypisjedneudalosti(eventid):
 
     return render_template('udalost.html', rows=rows, usr=GlobalUsername)
 
+# seznam udalosti
 @app.route('/udalosti')
 def vypisudalosti():
     GlobalUsername = session['username']
