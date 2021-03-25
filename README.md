@@ -1,2 +1,2 @@
 # internalio - free and open intranet
-Jednoduchá webová aplikace / sociální síť pro interní komunikaci v rámci společnosti..
+This application is not in usable condition! Basic functions are still being developed! Passwords are stored in plaintext!
