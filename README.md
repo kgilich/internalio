@@ -4,3 +4,5 @@
 - Posts and Events
 - Multiple users
 - Multiple roles
+## What's new
+see this [wiki page](https://github.com/kgilich/internalio/wiki/What's-new)
