@@ -5,23 +5,22 @@
     <div class="w3-col m7">
     
         <div class="w3-container">
-            <h2>Základní administrace systému</h2>
-            <table class="w3-table-all">
-              <thead>
-                <tr class="w3-yellow">
-                  <th>Příspěvek</th>
-                  <th>Vymazat</th>
-                </tr>
-              </thead>
-            {% for row in prispevky %}
-              <tr>
-                <td><p>{{ prispevky['dotaz'] }}</p></td>
-                <td><a href="/back/deletep:{{ prispevky['ROWID'] }}">Smazat</a></td>
-              </tr>
-            {% endfor %}
-              
-            </table>
-          </div>
+          
+          <h3>company logo</h3>
+          <p>You can't set this here. It is always used from the file in /static/img/logo.png so you can replace it</p>
+
+          <form class="w3-container"  action="/admin/console/set" method="POST">
+          <label for="title"><h3>page title</h3></label>
+          <p>Here you can edit page title</p>
+          <input type="text" id="title" name="title" value="{{ title }}"><br>
+          <label for="motto"><h3>motto</h3></label>
+          <p>Here you can edit motto of your company</p>
+          <input type="text" id="motto" name="motto" value="{{ motto }}"><br>
+        </br>
+         <button class="w3-button w3-white w3-border"><input type="submit" value="Change settings"></button>
+            </form>
+
+        </div>
 
 
         

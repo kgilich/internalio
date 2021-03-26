@@ -23,6 +23,20 @@ def inject_user():
         perms = verify.permissions(user,aktualni_adresar)
         return dict(perms=perms,usr=user)
 
+@app.context_processor
+def inject_settings():
+    con = sql.connect(os.path.join(aktualni_adresar, 'main.db'))
+    con.row_factory = sql.Row
+    cur = con.cursor()
+    cur.execute('SELECT * FROM settings;')
+    rows = cur.fetchall()
+    con.commit()
+    con.close()
+    for row in rows:
+        title = row['title']
+        motto = row['motto']
+    return dict(title=title, motto=motto)
+
 @app.route('/')
 def index():
     if not session.get('username'):
@@ -187,6 +201,30 @@ def vypisudalosti():
     rows = cur.fetchall()
 
     return render_template('udalosti.html', rows=rows)
+
+@app.route('/admin/console')
+def openAdminConsole():
+    user = session['username']
+    if verify.permissions(user, aktualni_adresar) == "SUPERUSER":
+        return render_template('admin.html')
+    else:
+        return("NO PERMISSIONS!")
+
+@app.route('/admin/console/set', methods=["POST"])
+def setAdminConsole():
+    user = session['username']
+    if verify.permissions(user, aktualni_adresar) == "SUPERUSER":
+        title = request.form['title']
+        motto = request.form['motto']
+        con = sql.connect(os.path.join(aktualni_adresar, 'main.db'))
+        con.row_factory = sql.Row
+        cur = con.cursor()
+        cur.execute('UPDATE settings SET title = ?, motto = ?;', [title, motto])
+        con.commit()
+        con.close()
+        return redirect('/admin/console')
+    else:
+        return("NO PERMISSIONS!")
 
 @app.route('/back/comment:<postid>', methods=['POST'])
 def poslikometar(postid):

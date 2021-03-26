@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<title>Decathlon | Teplice</title>
+<title>{{ title }}</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -16,7 +16,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}; .mySlides
 <div class="w3-top">
  <div class="w3-bar w3-blue w3-left-align w3-large">
   <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-blue" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
-  <a href="/" class="w3-bar-item w3-button w3-padding-large w3-light-blue"><i class="fa fa-home w3-margin-right"></i><img src="https://vignette.wikia.nocookie.net/logopedia/images/6/6b/DECATHLON.png/revision/latest?cb=20190609201318" class="w3-image" style="height: 0.7cm;"> | Teplice</a>
+  <a href="/" class="w3-bar-item w3-button w3-padding-large w3-light-blue"><i class="fa fa-home w3-margin-right"></i><img src="/static/img/logo.png" class="w3-image" style="height: 0.7cm;"> | {{ motto }}</a>
   <div class="w3-dropdown-hover w3-hide-small">
     <button class="w3-button w3-padding-large">Příspěvky</button>
     <div class="w3-dropdown-content w3-card-4 w3-bar-block">
@@ -33,11 +33,9 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}; .mySlides
   </div>
   {% if perms == "SUPERUSER" %}
   <div class="w3-dropdown-hover w3-hide-small">
-      <button class="w3-button w3-padding-large">Nástroje (beta)</button>
+      <button class="w3-button w3-padding-large">Admin (beta)</button>
       <div class="w3-dropdown-content w3-card-4 w3-bar-block">
-        <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Testovačky"><i class="fa fa-bicycle"></i>  - Zaměstnanecké testovačky</a>
-        <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Evidence mobilů"><i class="fa fa-mobile"></i>  - Evidence služebních telefonů</a>
-        <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Nástroj reklamace"><i class="fa fa-recycle"></i>  - Průvodce šetrnou reklamací</a>
+        <a href="/admin/console" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Console"><i class="fa fa-cogs"></i> Console</a>
       </div>
     </div>
   {% endif %}
