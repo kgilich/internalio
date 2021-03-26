@@ -5,21 +5,31 @@
     <div class="w3-col m7">
     
         <div class="w3-container">
-          
-          <h3>company logo</h3>
-          <p>You can't set this here. It is always used from the file in /static/img/logo.png so you can replace it</p>
-
+          <h1>Administration console</h1>
+          <h2>General</h2>
+          <p>In this section you can find some global settings which will affect all users.</p>
           <form class="w3-container"  action="/admin/console/set" method="POST">
-          <label for="title"><h3>page title</h3></label>
-          <p>Here you can edit page title</p>
-          <input type="text" id="title" name="title" value="{{ title }}"><br>
-          <label for="motto"><h3>motto</h3></label>
-          <p>Here you can edit motto of your company</p>
-          <input type="text" id="motto" name="motto" value="{{ motto }}"><br>
-        </br>
-         <button class="w3-button w3-white w3-border"><input type="submit" value="Change settings"></button>
-            </form>
-
+            <h3>company logo</h3>
+            <p>You can't set this here. It is always used from the file in /static/img/logo.png so you can replace it.</p>
+            <label for="title"><h3>page title</h3></label>
+            <p>Here you can edit page title</p>
+            <input type="text" id="title" name="title" value="{{ title }}"><br>
+            <label for="motto"><h3>motto</h3></label>
+            <p>Here you can edit motto of your company</p>
+            <input type="text" id="motto" name="motto" value="{{ motto }}"><br>
+            </br>
+            <button class="w3-button w3-white w3-border"><input type="submit" value="Change settings"></button>
+          </form>
+          <h2>Content</h2>
+          <p>Here you can edit some global content.</p>
+          <form class="w3-container"  action="/admin/console/linkadd" method="POST">
+            <label for="motto"><h3>New link on homepage</h3></label>
+            <p>Here you can add new link on the homepage</p>
+            <input type="text" id="link" name="link" value="https://yourlinkhere.com/"><br>
+            <input type="text" id="name" name="name" value="Name of the link"><br>
+            </br>
+            <button class="w3-button w3-white w3-border"><input type="submit" value="Add"></button>
+          </form>
         </div>
 
 

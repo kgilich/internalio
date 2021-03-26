@@ -3,7 +3,7 @@ import datetime
 import os
 
 def verify_mail(email):
-    if not "@decathlon.com" in email:
+    if not "@" in email:
         return "chyba"
     else:
         return "ok"

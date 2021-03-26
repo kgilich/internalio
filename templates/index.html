@@ -4,20 +4,17 @@
     <!-- Middle Column -->
     <div class="w3-col m7">
         <div class="w3-container w3-card w3-white w3-round w3-margin"><br>
-    <h3>Ahoj spoluhráči!</h3>
-    <p>Na této úvodní stránce je v plánu tvá osobní domovská stránka, kterou si budeš moc přizpůsobit. Ale než k tomu dojde, můžeš jí využívat aspoň jako takový rozcestník důležitými weby "decathloňáckého" intranetu.</p>
+    <h3>Hey!</h3>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eu massa dui. Duis ultricies tincidunt lectus, sit amet malesuada ante tincidunt nec. Sed vitae lacinia neque, sit amet mollis turpis. Fusce dignissim consectetur commodo. Integer rhoncus dui tristique eros pellentesque, eleifend facilisis purus lobortis. Donec tincidunt volutpat bibendum. Morbi egestas congue augue quis bibendum. Sed velit tortor, ultricies non magna eget, aliquet condimentum erat. Sed mi nunc, tempor et consectetur sed, venenatis sit amet elit. Nulla ullamcorper metus ut lacus scelerisque suscipit. </p>
+
 
     <div class="w3-bar-block w3-black">
-            <a href="http://mail.oxylane.com/" class="w3-bar-item w3-hover-blue">Pracovní email</a>
-            <a href="http://cloudsearch.google.com" class="w3-bar-item w3-hover-blue">Vyhledávání souborů a webů "decathlonem"</a>
-            <a href="https://search.decathlon.com/customermatrix/" class="w3-bar-item w3-hover-blue">Vyhledávání spoluhráčů z celého světa</a>
-            <a href="http://plus.google.com/" class="w3-bar-item w3-hover-blue">Sociální síť Google+</a>
-            <a href="https://sites.google.com/oxylane.com/intranetdecathloncz/" class="w3-bar-item w3-hover-blue">Intranet CZ</a>
-            <a href="https://wifi.decathlon.net/" class="w3-bar-item w3-hover-blue">Připojení soukromého PC na WIFI (Windows / MacOS)</a>
-            <a href="https://anyaccess.decathlon.net/dana/home/index.cgi" class="w3-bar-item w3-hover-blue">Anyaccess - přístup do stores ze soukromého počítače</a>  
+        {% for row in rows %}
+        <a href="{{ row['link'] }}" class="w3-bar-item w3-hover-blue">{{ row['name'] }}</a>
+        {% endfor %}
     </div>
 </br>
-    <p> Všechny tyto odkazy jsou přístupné i z domova! :)</p>
+    <p>Useful links 🠕</p>
       <!-- End Middle Column -->
     </div>      
     </div>
@@ -28,19 +25,21 @@
 <h2 class="w3-center"> </h2>
             
 <div class="w3-content w3-hide-small" style="max-width:400px">
- <div class="mySlides w3-container w3-large w3-blue w3-card-4">
-        <h2>Efektivnější komunikace napříč prodejnou</h2>
-        <p>Kokunikační nástroj zcela v režii týmu - přizpůsobitelný a flexibilní.</p>
- </div>
-
-  <img class="mySlides" src="https://s3.eu-central-1.amazonaws.com/cocuma-prod/companies/6-decathlon/images/thumbnails/18216_QO0596p.jpg" style="width:100%">
-
   <div class="mySlides w3-container w3-large w3-blue w3-card-4">
-    <h2>Účinné nástroje</h2>
-    <p>Takové, jaké si budeš přát. Na míru tvým potřebám.</p>
+      <h2>Efektivní komunikace</h2>
+      <p>Přehledný a flexibilní komunikační nástroj pro různé potřeby</p>
   </div>
 
-  <img class="mySlides" src="https://s3.eu-central-1.amazonaws.com/cocuma-prod/companies/6-decathlon/images/thumbnails/18337_N8litSU.jpg" style="width:100%">
+  <div class="mySlides w3-container w3-large w3-blue w3-card-4">
+      <h2>Rychlý vývoj</h2>
+      <p>Nové funkce, rychlá oprava chyb a snadná spolupráce</p>
+  </div>
+
+  <div class="mySlides w3-container w3-large w3-blue w3-card-4">
+      <h2>Zdarma</h2>
+      <p>Dostupné zcela zdarma bez žádného omezení</p>
+  </div>
+
 </div>
 {% endblock %}
 {% block usr %} {{ usr }} {% endblock %}
@@ -48,11 +47,11 @@
  {% for row in event %}
  <div class="w3-card w3-round w3-white w3-center">
         <div class="w3-container">
-          <p>Nejbližší událost</p>
+          <p>Next event</p>
           <img src="https://upload.wikimedia.org/wikipedia/commons/1/12/Icons8_flat_planner_green_calendar.png" alt="calendar" style="width:100%;">
           <p><strong>{{ row['nazev'] }}</strong></p>
           <p>{{ row['datum'] }} {{ row['cas'] }}</p>
-          <p><button class="w3-button w3-block w3-theme-l4"><a href="/udalost:{{ row['ROWID'] }}">Více informací</a></button></p>
+          <p><button class="w3-button w3-block w3-theme-l4"><a href="/udalost:{{ row['ROWID'] }}">More info</a></button></p>
         </div>
       </div>
  {% endfor %}

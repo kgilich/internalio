@@ -41,9 +41,14 @@ def inject_settings():
 def index():
     if not session.get('username'):
         return render_template('index.html', usr="nic")
-    else:   
+    else:
+        con = sql.connect(os.path.join(aktualni_adresar, 'main.db'))
+        con.row_factory = sql.Row
+        cur = con.cursor()
+        cur.execute('SELECT * FROM homepageLinks;')
+        rows = cur.fetchall() 
         LastEvent = NejblizsiUdalost()
-        return render_template('index.html', event=LastEvent)
+        return render_template('index.html', event=LastEvent, rows=rows)
 
 @app.route('/action/newuser')
 def registrace():
@@ -52,15 +57,7 @@ def registrace():
 @app.route('/back/deletep:<rowid>', methods=["GET"])
 def deletepost(rowid):
         name = session['username']
-        con = sql.connect(os.path.join(aktualni_adresar, 'main.db'))
-        con.row_factory = sql.Row
-        cur = con.cursor()
-        cur.execute('SELECT * FROM uzivatele WHERE uzivatel = ?;', [name])
-        rows = cur.fetchall()
-        con.commit()
-        con.close()
-        for row in rows:
-            role = row['role']
+        role = verify.permissions(name, aktualni_adresar)
         if role == "SUPERUSER":
             con = sql.connect(os.path.join(aktualni_adresar, 'main.db'))
             con.row_factory = sql.Row
@@ -69,9 +66,9 @@ def deletepost(rowid):
             cur.execute('DELETE FROM dotazy WHERE ROWID = ?;', [idecko])
             con.commit()
             con.close()
-            return redirect('/')
+            return redirect('/prehled')
         else:
-            return("Přístup odepřen, běž si hrát na hřiště :)")
+            return("Access denied, bye!")
 
 
 
@@ -220,6 +217,22 @@ def setAdminConsole():
         con.row_factory = sql.Row
         cur = con.cursor()
         cur.execute('UPDATE settings SET title = ?, motto = ?;', [title, motto])
+        con.commit()
+        con.close()
+        return redirect('/admin/console')
+    else:
+        return("NO PERMISSIONS!")
+
+@app.route('/admin/console/linkadd', methods=["POST"])
+def linkAddAdminConsole():
+    user = session['username']
+    if verify.permissions(user, aktualni_adresar) == "SUPERUSER":
+        link = request.form['link']
+        name = request.form['name']
+        con = sql.connect(os.path.join(aktualni_adresar, 'main.db'))
+        con.row_factory = sql.Row
+        cur = con.cursor()
+        cur.execute('INSERT INTO homepageLinks (name, link) VALUES (?, ?);', [name, link])
         con.commit()
         con.close()
         return redirect('/admin/console')
