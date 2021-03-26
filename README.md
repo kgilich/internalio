@@ -5,4 +5,4 @@
 - Multiple users
 - Multiple roles
 ## What's new
-- Administration panel
+see this [wiki page](https://github.com/kgilich/internalio/wiki/What's-new)
