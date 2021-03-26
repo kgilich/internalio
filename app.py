@@ -222,7 +222,7 @@ def setAdminConsole():
         return redirect('/admin/console')
     else:
         return("NO PERMISSIONS!")
-
+# function for new link on homepage
 @app.route('/admin/console/linkadd', methods=["POST"])
 def linkAddAdminConsole():
     user = session['username']
