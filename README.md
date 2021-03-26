@@ -4,3 +4,5 @@
 - Posts and Events
 - Multiple users
 - Multiple roles
+## What's new
+- Administration panel
