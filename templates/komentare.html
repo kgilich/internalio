@@ -9,11 +9,11 @@
 
           <form class="w3-container"  action="/back/comment:{{ row }}" method="POST">
         </br>
-          <label>Text komentáře</label>
+          <label>Comment text</label>
         </br>
           <textarea class="w3-input w3-border" name="komentar" style="width:100%;"></textarea>
       </br>
-       <button class="w3-button w3-white w3-border"><input type="submit"></button>
+       <button class="w3-button w3-white w3-border"><input type="submit" value="Submit"></button>
           </form>
        {% for row in rows %}
        <div class="w3-container w3-card w3-white w3-round w3-margin"><br>
@@ -28,8 +28,7 @@
             
             </form>
             <div class="w3-panel w3-pale-blue w3-leftbar w3-rightbar w3-border-blue">
-              <p>Stejně jako ve sportu i zde existují určitá pravidla. Pokuď se chceš vyhnout "diskvalifikaci ze hry", nastuduj si je <a href="https://docs.google.com/document/d/18xeupX9-uqJgYYrkd97PktYYwvqgRZPkvrlei-pUyfk/edit?usp=sharing">zde.</a></a></p>
-              <p>S pravidly souhlasíš automaticky - odesláním dotazu</p>
+              <p>By submitting, you agree to be responsible for your contributions!</p>
             </div>
 
         </div> 
