@@ -13,14 +13,23 @@ app.debug = True
 
 aktualni_adresar = os.path.abspath(os.path.dirname(__file__))
 now = datetime.datetime.now()
+
+@app.context_processor
+def inject_user():
+    if not session.get('username'):
+        return dict(perms=0)
+    else:
+        user = session['username']
+        perms = verify.permissions(user,aktualni_adresar)
+        return dict(perms=perms,usr=user)
+
 @app.route('/')
 def index():
     if not session.get('username'):
         return render_template('index.html', usr="nic")
     else:   
         LastEvent = NejblizsiUdalost()
-        GlobalUsername = session['username']
-        return render_template('index.html', usr=GlobalUsername, event=LastEvent)
+        return render_template('index.html', event=LastEvent)
 
 @app.route('/action/newuser')
 def registrace():
@@ -73,33 +82,30 @@ def newuser():
 
 @app.route('/novyp')
 def newquestion():
-    GlobalUsername = session['username']
-    return render_template('dotaz.html', usr=GlobalUsername)
+    return render_template('dotaz.html')
 
 @app.route('/novau')
 def newevent():
-    GlobalUsername = session['username']
-    return render_template('novaudalost.html', usr=GlobalUsername)
+    return render_template('novaudalost.html')
 
 @app.route('/prehled')
 def prehled():
-    GlobalUsername = session['username']
+    user = session['username']
     con = sql.connect(os.path.join(aktualni_adresar, 'main.db'))
     con.row_factory = sql.Row
     cur = con.cursor()
     cur.execute('SELECT *, ROWID FROM dotazy ORDER BY vlozeno DESC, vcase DESC;')
-    rows = cur.fetchall()
-    return render_template('vypis.html', rows=rows, usr=GlobalUsername)
+    posts = cur.fetchall()
+    return render_template('vypis.html', rows=posts)
 
 @app.route('/prehled:<kategorie>')
 def prehledby(kategorie):
-    GlobalUsername = session['username']
     con = sql.connect(os.path.join(aktualni_adresar, 'main.db'))
     con.row_factory = sql.Row
     cur = con.cursor()
     cur.execute('SELECT *, ROWID FROM dotazy WHERE kategorie = ?;', [kategorie])
     rows = cur.fetchall()
-    return render_template('vypis.html', rows=rows, usr=GlobalUsername)
+    return render_template('vypis.html', rows=rows)
 
 @app.route('/back/newevent', methods=['POST'])
 def saveevent():
@@ -152,42 +158,38 @@ def auth():
 # vypise komentare dle id příspěvku
 @app.route('/komentare:<postid>', methods=['GET'])
 def vypiskomentaru(postid):
-    GlobalUsername = session['username']
     con = sql.connect(os.path.join(aktualni_adresar, 'main.db'))
     con.row_factory = sql.Row
     cur = con.cursor()
     cur.execute('SELECT * FROM komentare WHERE postID = ?;', [postid])
     rows = cur.fetchall()
 
-    return render_template('komentare.html', rows=rows, row=postid, usr=GlobalUsername)
+    return render_template('komentare.html', rows=rows, row=postid)
 
 # vypise detail udalosti dle jejiho id
 @app.route('/udalost:<eventid>', methods=['GET'])
 def vypisjedneudalosti(eventid):
-    GlobalUsername = session['username']
     con = sql.connect(os.path.join(aktualni_adresar, 'main.db'))
     con.row_factory = sql.Row
     cur = con.cursor()
     cur.execute('SELECT * FROM udalosti WHERE ROWID = ?;', [eventid])
     rows = cur.fetchall()
 
-    return render_template('udalost.html', rows=rows, usr=GlobalUsername)
+    return render_template('udalost.html', rows=rows)
 
 # seznam udalosti
 @app.route('/udalosti')
 def vypisudalosti():
-    GlobalUsername = session['username']
     con = sql.connect(os.path.join(aktualni_adresar, 'main.db'))
     con.row_factory = sql.Row
     cur = con.cursor()
     cur.execute('SELECT *, ROWID FROM udalosti ORDER BY datum ASC;')
     rows = cur.fetchall()
 
-    return render_template('udalosti.html', rows=rows, usr=GlobalUsername)
+    return render_template('udalosti.html', rows=rows)
 
 @app.route('/back/comment:<postid>', methods=['POST'])
 def poslikometar(postid):
-    GlobalUsername = session['username']
     postID = postid
     komentar = request.form['komentar']
     name = session['username']
@@ -213,7 +215,7 @@ def poslikometar(postid):
     cur = con.cursor()
     cur.execute('SELECT * FROM komentare WHERE postID = ?;', [postid])
     rows = cur.fetchall()
-    return render_template('komentare.html', rows=rows, row=postid, usr=GlobalUsername)
+    return render_template('komentare.html', rows=rows, row=postid)
 
 def overeni(name, heslo):
     con = sql.connect(os.path.join(aktualni_adresar, 'main.db'))

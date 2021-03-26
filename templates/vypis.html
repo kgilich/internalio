@@ -30,7 +30,7 @@
           <h4>{{ row['jmeno'] }} {{ row['prijmeni'] }}</h4><br>
           <hr class="w3-clear">
           <p>{{ row['dotaz'] }}</p>
-          {% if usr == "kgilich" %}
+          {% if perms == "SUPERUSER" %}
           <button type="button" class="w3-button w3-theme-d2 w3-margin-bottom"><i class="fa fa-trash"></i> <a href="/back/deletep:{{ row['ROWID'] }}">Smazat</a></button> 
           {% endif %}
           <button type="button" class="w3-button w3-theme-d2 w3-margin-bottom"><i class="fa fa-comment"></i> <a href="/komentare:{{ row['ROWID'] }}">Komentáře</a></button> 

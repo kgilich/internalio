@@ -8,7 +8,7 @@
 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
-html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}, .mySlides {display:none;}
+html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}; .mySlides {display:none;}
 </style>
 <body class="w3-theme-l5">
 <!-- Navbar -->
@@ -31,14 +31,16 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}, .mySlides
       <a href="/udalosti" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Události"><i class="fa fa-list"></i>  Přehled událostí</a>
     </div>
   </div>
+  {% if perms == "SUPERUSER" %}
   <div class="w3-dropdown-hover w3-hide-small">
-      <button class="w3-button w3-padding-large">Nástroje (nepřístupné)</button>
+      <button class="w3-button w3-padding-large">Nástroje (beta)</button>
       <div class="w3-dropdown-content w3-card-4 w3-bar-block">
         <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Testovačky"><i class="fa fa-bicycle"></i>  - Zaměstnanecké testovačky</a>
         <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Evidence mobilů"><i class="fa fa-mobile"></i>  - Evidence služebních telefonů</a>
         <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Nástroj reklamace"><i class="fa fa-recycle"></i>  - Průvodce šetrnou reklamací</a>
       </div>
     </div>
+  {% endif %}
   <a href="/back/logout" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Odhlásit se"><i class="fa fa-sign-out"></i>  Odhlásit se</a>
   <div class="w3-dropdown-hover w3-hide-small">
     <button class="w3-button w3-padding-large" title="Notifications"><i class="fa fa-bell"></i><span class="w3-badge w3-right w3-small w3-green">0</span></button>     
@@ -91,7 +93,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}, .mySlides
       <div class="w3-card w3-round w3-white">
         <div class="w3-container">
          <h4 class="w3-center">Tvůj profil</h4>
-         <p class="w3-center"><img src="https://d1065et7n9hdcp.cloudfront.net/__imageservlet/file/pixldamcomm/pj/035/w15609238158640/web_dsk,mob,tab_other%20_it_tw_2019_%E5%81%A5%E8%B5%B0%5B%5D%E9%81%8B%E5%8B%95%E5%A4%A7%E4%BD%BFtina.jpg?w=-1&h=-1&p=1&z=0&ar=1&pn=0&bg=white" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
+         <p class="w3-center"><img src="/static/img/profile.png" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
          <hr>
          <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i>{% block usr %} {% endblock %}</p>
          <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i> Teplice - 2099</p>
@@ -193,7 +195,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}, .mySlides
 
 <!-- Footer -->
 <footer class="w3-container w3-theme-d3 w3-padding-16">
-  <h5>Dělej co tě baví! 😊</h5>
+  <h5><a href="https://github.com/kgilich/internalio">See more about this project</a></h5>
 </footer>
 
 <footer class="w3-container w3-theme-d5">
