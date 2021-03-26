@@ -1,5 +1,5 @@
-#encoding: utf-8
-from flask import Flask, render_template, redirect, request, url_for, session, escape
+# encoding: utf-8
+from flask import Flask, render_template, redirect, request, session
 import sqlite3 as sql
 import verify
 import datetime
@@ -14,14 +14,16 @@ app.debug = True
 aktualni_adresar = os.path.abspath(os.path.dirname(__file__))
 now = datetime.datetime.now()
 
+
 @app.context_processor
 def inject_user():
     if not session.get('username'):
         return dict(perms=0)
     else:
         user = session['username']
-        perms = verify.permissions(user,aktualni_adresar)
-        return dict(perms=perms,usr=user)
+        perms = verify.permissions(user, aktualni_adresar)
+        return dict(perms=perms, usr=user)
+
 
 @app.context_processor
 def inject_settings():
@@ -37,6 +39,7 @@ def inject_settings():
         motto = row['motto']
     return dict(title=title, motto=motto)
 
+
 @app.route('/')
 def index():
     if not session.get('username'):
@@ -46,68 +49,73 @@ def index():
         con.row_factory = sql.Row
         cur = con.cursor()
         cur.execute('SELECT * FROM homepageLinks;')
-        rows = cur.fetchall() 
+        rows = cur.fetchall()
         LastEvent = NejblizsiUdalost()
         return render_template('index.html', event=LastEvent, rows=rows)
+
 
 @app.route('/action/newuser')
 def registrace():
     return render_template('registrace.html')
 
+
 @app.route('/back/deletep:<rowid>', methods=["GET"])
 def deletepost(rowid):
-        name = session['username']
-        role = verify.permissions(name, aktualni_adresar)
-        if role == "SUPERUSER":
-            con = sql.connect(os.path.join(aktualni_adresar, 'main.db'))
-            con.row_factory = sql.Row
-            cur = con.cursor()
-            idecko = rowid
-            cur.execute('DELETE FROM dotazy WHERE ROWID = ?;', [idecko])
-            con.commit()
-            con.close()
-            return redirect('/prehled')
-        else:
-            return("Access denied, bye!")
+    name = session['username']
+    role = verify.permissions(name, aktualni_adresar)
+    if role == "SUPERUSER":
+        con = sql.connect(os.path.join(aktualni_adresar, 'main.db'))
+        con.row_factory = sql.Row
+        cur = con.cursor()
+        idecko = rowid
+        cur.execute('DELETE FROM dotazy WHERE ROWID = ?;', [idecko])
+        con.commit()
+        con.close()
+        return redirect('/prehled')
+    else:
+        return("Access denied, bye!")
 
 
 
 @app.route('/back/newuser', methods=["POST"])
 def newuser():
-        jmeno = request.form['first_name']
-        prijmeni = request.form['last_name']
-        email = request.form['email']
-        heslo = request.form['password']
-        nickname = request.form['nickname']
-        verifyEmail = verify.verify_mail(email)
-        if verifyEmail == "ok":
-            con = sql.connect(os.path.join(aktualni_adresar, 'main.db'))
-            con.row_factory = sql.Row
-            cur = con.cursor()
-            cur.execute('INSERT INTO uzivatele (uzivatel, heslo, email, jmeno, prijmeni)  VALUES (?, ?, ?, ?, ?);', [nickname, heslo, email, jmeno, prijmeni])
-            con.commit()
-            con.close()
-            return redirect('/back/logout')
-        else:
-            return("Zadaný email nepochází z domény @decathlon.com")
+    jmeno = request.form['first_name']
+    prijmeni = request.form['last_name']
+    email = request.form['email']
+    heslo = request.form['password']
+    nickname = request.form['nickname']
+    verifyEmail = verify.verify_mail(email)
+    if verifyEmail == "ok":
+        con = sql.connect(os.path.join(aktualni_adresar, 'main.db'))
+        con.row_factory = sql.Row
+        cur = con.cursor()
+        cur.execute('INSERT INTO uzivatele (uzivatel, heslo, email, jmeno, prijmeni) VALUES (?, ?, ?, ?, ?);', [nickname, heslo, email, jmeno, prijmeni])
+        con.commit()
+        con.close()
+        return redirect('/back/logout')
+    else:
+        return("Zadaný email nepochází z domény @decathlon.com")
+
 
 @app.route('/novyp')
 def newquestion():
     return render_template('dotaz.html')
 
+
 @app.route('/novau')
 def newevent():
     return render_template('novaudalost.html')
 
+
 @app.route('/prehled')
 def prehled():
-    user = session['username']
     con = sql.connect(os.path.join(aktualni_adresar, 'main.db'))
     con.row_factory = sql.Row
     cur = con.cursor()
     cur.execute('SELECT *, ROWID FROM dotazy ORDER BY vlozeno DESC, vcase DESC;')
     posts = cur.fetchall()
     return render_template('vypis.html', rows=posts)
+
 
 @app.route('/prehled:<kategorie>')
 def prehledby(kategorie):
@@ -118,40 +126,43 @@ def prehledby(kategorie):
     rows = cur.fetchall()
     return render_template('vypis.html', rows=rows)
 
+
 @app.route('/back/newevent', methods=['POST'])
 def saveevent():
-        name = session['username']
-        con = sql.connect(os.path.join(aktualni_adresar, 'main.db'))
-        con.row_factory = sql.Row
-        cur = con.cursor()
-        cur.execute('SELECT email, jmeno, prijmeni FROM uzivatele WHERE uzivatel = ?', [name])
-        rows = cur.fetchall()
-        con.commit()
-        con.close()
-        for row in rows:
-            mail = row['email']
-            jmeno = row['jmeno']
-            prijmeni = row['prijmeni']
-        email = mail
-        j = jmeno
-        p = prijmeni
-        nazev = request.form['nazev_udalosti']
-        popis = request.form['popis_udalosti']
-        datum = request.form['datum_udalosti']
-        cas = request.form['cas_udalosti']
-        con = sql.connect(os.path.join(aktualni_adresar, 'main.db'))
-        con.row_factory = sql.Row
-        cur = con.cursor()
-        cur.execute('INSERT INTO udalosti (email, jmeno, prijmeni, nazev, popis, datum, cas)  VALUES (?, ?, ?, ?, ?, ?, ?);', [email, j, p, nazev, popis, datum, cas])
-        con.commit()
-        con.close()
-        return redirect('/')
+    name = session['username']
+    con = sql.connect(os.path.join(aktualni_adresar, 'main.db'))
+    con.row_factory = sql.Row
+    cur = con.cursor()
+    cur.execute('SELECT email, jmeno, prijmeni FROM uzivatele WHERE uzivatel = ?', [name])
+    rows = cur.fetchall()
+    con.commit()
+    con.close()
+    for row in rows:
+        mail = row['email']
+        jmeno = row['jmeno']
+        prijmeni = row['prijmeni']
+    email = mail
+    j = jmeno
+    p = prijmeni
+    nazev = request.form['nazev_udalosti']
+    popis = request.form['popis_udalosti']
+    datum = request.form['datum_udalosti']
+    cas = request.form['cas_udalosti']
+    con = sql.connect(os.path.join(aktualni_adresar, 'main.db'))
+    con.row_factory = sql.Row
+    cur = con.cursor()
+    cur.execute('INSERT INTO udalosti (email, jmeno, prijmeni, nazev, popis, datum, cas)  VALUES (?, ?, ?, ?, ?, ?, ?);', [email, j, p, nazev, popis, datum, cas])
+    con.commit()
+    con.close()
+    return redirect('/')
+
 
 @app.route('/back/newpost', methods=['POST'])
 def Do_savepost():
-        name = session['username']
-        if posts.savepost(name,request,aktualni_adresar) == "1":
-            return redirect("/prehled")
+    name = session['username']
+    if posts.savepost(name, request, aktualni_adresar) == "1":
+        return redirect("/prehled")
+
 
 # overovani uzivatele
 @app.route('/back/auth', methods=['POST'])
@@ -166,6 +177,7 @@ def auth():
     else:
         return("Špatné heslo/jméno")
 
+
 # vypise komentare dle id příspěvku
 @app.route('/komentare:<postid>', methods=['GET'])
 def vypiskomentaru(postid):
@@ -176,6 +188,7 @@ def vypiskomentaru(postid):
     rows = cur.fetchall()
 
     return render_template('komentare.html', rows=rows, row=postid)
+
 
 # vypise detail udalosti dle jejiho id
 @app.route('/udalost:<eventid>', methods=['GET'])
@@ -188,6 +201,7 @@ def vypisjedneudalosti(eventid):
 
     return render_template('udalost.html', rows=rows)
 
+
 # seznam udalosti
 @app.route('/udalosti')
 def vypisudalosti():
@@ -199,6 +213,7 @@ def vypisudalosti():
 
     return render_template('udalosti.html', rows=rows)
 
+
 @app.route('/admin/console')
 def openAdminConsole():
     user = session['username']
@@ -206,6 +221,7 @@ def openAdminConsole():
         return render_template('admin.html')
     else:
         return("NO PERMISSIONS!")
+
 
 @app.route('/admin/console/set', methods=["POST"])
 def setAdminConsole():
@@ -222,6 +238,8 @@ def setAdminConsole():
         return redirect('/admin/console')
     else:
         return("NO PERMISSIONS!")
+
+
 # function for new link on homepage
 @app.route('/admin/console/linkadd', methods=["POST"])
 def linkAddAdminConsole():
@@ -239,6 +257,7 @@ def linkAddAdminConsole():
     else:
         return("NO PERMISSIONS!")
 
+
 @app.route('/back/comment:<postid>', methods=['POST'])
 def poslikometar(postid):
     postID = postid
@@ -249,7 +268,7 @@ def poslikometar(postid):
     cur = con.cursor()
     cur.execute('SELECT email, jmeno, prijmeni FROM uzivatele WHERE uzivatel = ?', [name])
     rows = cur.fetchall()
-    for row in rows:  
+    for row in rows:
         mail = row['email']
         jmeno = row['jmeno']
         prijmeni = row['prijmeni']
@@ -268,6 +287,7 @@ def poslikometar(postid):
     rows = cur.fetchall()
     return render_template('komentare.html', rows=rows, row=postid)
 
+
 def overeni(name, heslo):
     con = sql.connect(os.path.join(aktualni_adresar, 'main.db'))
     con.row_factory = sql.Row
@@ -279,6 +299,7 @@ def overeni(name, heslo):
         return("neni")
 # konec overovani
 
+
 def NejblizsiUdalost():
     con = sql.connect(os.path.join(aktualni_adresar, 'main.db'))
     con.row_factory = sql.Row
@@ -287,6 +308,7 @@ def NejblizsiUdalost():
     cur.execute('SELECT *, ROWID FROM udalosti WHERE datum < ? ORDER BY datum DESC LIMIT 1;', [dnes])
     rows = cur.fetchall()
     return(rows)
+
 
 def NajdiJmeno(email):
     con = sql.connect(os.path.join(aktualni_adresar, 'main.db'))
