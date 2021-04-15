@@ -6,7 +6,7 @@ import datetime
 import os
 import posts
 
-
+# generate your own secret_key
 app = Flask(__name__)
 app.secret_key = "2bcjhcebcjec35hjhh605"
 app.debug = True
